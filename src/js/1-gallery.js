@@ -93,6 +93,7 @@ galleryContainer.innerHTML = galleryMarkup;
 
 
 const lightbox = new SimpleLightbox('.gallery a', {
+  captions: true,
   captionsData: 'alt',
   captionDelay: 250,
 });
