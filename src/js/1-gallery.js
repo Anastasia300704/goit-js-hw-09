@@ -1,14 +1,3 @@
-import SimpleLightbox from "simplelightbox";
-
-import "simplelightbox/dist/simple-lightbox.min.css";
-
-
-const lightbox = new SimpleLightbox('.gallery a', {
- captions: true,
-  captionsData: 'alt',
-  captionDelay: 250,
-});
-
 const images = [
   {
     preview:
@@ -97,6 +86,18 @@ function createGalleryMarkup(items) {
 
 const galleryMarkup = createGalleryMarkup(images);
 galleryContainer.innerHTML = galleryMarkup;
+
+import SimpleLightbox from "simplelightbox";
+
+import "simplelightbox/dist/simple-lightbox.min.css";
+
+const lightbox = new SimpleLightbox('.gallery a', {
+ captions: true,
+  captionsData: 'alt',
+  captionDelay: 250,
+});
+
+
 
 
 

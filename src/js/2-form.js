@@ -1,47 +1,54 @@
-const formData = {
-  email: '',
-  message: '',
+let formData = {
+    email: "",
+    message: ""
 };
 
 
-const form = document.querySelector('.feedback-form');
-const STORAGE_KEY = 'feedback-form-state';
+const form = document.getElementById('feedback-form');
+const emailInput = form.elements.email;
+const messageInput = form.elements.message;
 
-form.addEventListener('input', onFormInput);
 
-function onFormInput(event) {
-  formData[event.target.name] = event.target.value;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+function saveToLocalStorage() {
+    localStorage.setItem('feedback-form-state', JSON.stringify(formData));
 }
 
 
-document.addEventListener('DOMContentLoaded', populateFormData);
-
-function populateFormData() {
-  const savedData = localStorage.getItem(STORAGE_KEY);
-  if (savedData) {
-    const parsedData = JSON.parse(savedData);
-    form.email.value = parsedData.email || '';
-    form.message.value = parsedData.message || '';
-    formData.email = parsedData.email || '';
-    formData.message = parsedData.message || '';
-  }
+function loadFromLocalStorage() {
+    const savedData = localStorage.getItem('feedback-form-state');
+    if (savedData) {
+        formData = JSON.parse(savedData);
+        emailInput.value = formData.email;
+        messageInput.value = formData.message;
+    }
 }
 
 
-form.addEventListener('submit', onFormSubmit);
+form.addEventListener('input', (event) => {
+ 
+    formData[event.target.name] = event.target.value.trim(); // Використовуємо trim()
+   
+    saveToLocalStorage();
+});
 
-function onFormSubmit(event) {
-  event.preventDefault();
 
-  if (!formData.email || !formData.message) {
-    alert('Fill please all fields');
-    return;
-  }
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
 
-  console.log(formData);
-  localStorage.removeItem(STORAGE_KEY);
-  form.reset();
-  formData.email = '';
-  formData.message = '';
-}
+   
+    if (!formData.email || !formData.message) {
+        alert("Fill please all fields");
+        return;
+    }
+
+   
+    console.log(formData);
+
+   
+    localStorage.removeItem('feedback-form-state');
+    formData = { email: "", message: "" };
+    form.reset();
+});
+
+
+loadFromLocalStorage();
